@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/themes/hvision.css" />
+        <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0-rc.1/jquery.mobile.structure-1.4.0-rc.1.min.css" /> 
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script> 
+        <script src="http://code.jquery.com/mobile/1.4.0-rc.1/jquery.mobile-1.4.0-rc.1.min.js"></script> 
+
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>H-Building admin</title>
+    </head>
+    <body>
+        <div class="login"></div>
+        <a href="#" onclick="exitFromApp()" class="log-out" data-role="button" data-icon="back" data-theme="a" style="padding:15px;">Exit</a>
+        <form class='login-form'>
+            <label for="username">User name:</label>
+            <input name="username" id="username" type="text" style="padding:15px;">
+            <div class="margin-b-10"></div>
+            <label for="password">Password</label>
+            <input name="password" id="password" type="password" style="padding:15px;">
+            <div class="margin-b-10"></div>
+            <a href="#" data-role="button" data-icon="forward" data-theme="a" style="padding:15px;">Login</a>
+        </form>
+        <div class='selector-wrap'>
+            <label for="teambuilding-selector">Select a team building</label>
+            <select id="teambuilding-selector" data-theme="b"></select>
+            <div class="margin-b-10"></div>
+            <a href="#" id="store-json" data-role="button" data-icon="info" data-theme="a" style="padding:15px;">Load team building</a>
+        </div>
+        <div id="current-wrap">
+            <h3>Currently loaded</h3>
+            <h1 id="current-teambuilding"></h1>
+            <div class="margin-b-10"></div>
+            <h3>Place</h3>
+            <h1 id="current-place"></h1>
+        </div>
+        <div id="output"></div>
+        <script type="text/javascript" src="phonegap.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>
