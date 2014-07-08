@@ -29,7 +29,7 @@ var app = {
                                 timeout: 5000,
                                 success: function (data, status) {
                                     $.each(data, function (i, item) {
-                                        selectList += '<option value="' + item.id + '">' + item.name + '/' + item.company + '</option>';
+                                        selectList += '<option value="' + item.id + '">' + item.title + '</option>';
                                     });
 
                                     if (selectList !== '') {
