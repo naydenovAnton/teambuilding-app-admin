@@ -110,7 +110,7 @@ function uploadImages() {
 
     function onFileSystemSuccess(fileSystem) {
 
-        alert('opaaa');
+        alert('opala tropala dotuk dobre');
         return false;
 
         fileSystem.root.getDirectory(
