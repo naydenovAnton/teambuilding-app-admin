@@ -20,7 +20,7 @@ var app = {
                 if ($('#password').val() == 'admin' && $('#username').val() == 'admin') {
                     //$.mobile.loading('show');
                     console.log('before load');
-                    
+
                     var url = 'http://scavenger.h-vision.com/app/backend/api.php?r=scavengerListForMobile';
                     var selectList = '<option value="-1" selected>Select teambuilding</option>';
                     $.ajax({
@@ -55,9 +55,8 @@ var app = {
 //                                });
 //                            }
                         },
-                        error: function() {
-                            console.log('error');
-                            alert.text('There was an error loading the data.');
+                        error: function(jqXHR, textStatus) {
+                            console.log(textStatus);
                             $.mobile.loading('hide');
                         }
                     });
