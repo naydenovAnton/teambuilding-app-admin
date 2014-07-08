@@ -83,7 +83,7 @@ function loadConfig() {
                     var saveString = JSON.stringify(item);
                     console.log(saveString);
 
-                    var writer = new FileWriter("/sdcard/write.txt");
+                    var writer = new FileWriter("/sdcard/scaveger/data/write.txt");
                     writer.write('tarator' + "\n", false);
                     alert("file Written to SD Card");
                 });
