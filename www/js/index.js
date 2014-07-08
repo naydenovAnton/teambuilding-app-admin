@@ -147,7 +147,7 @@ function uploadImages(fs) {
 }
 
 function createImageDir(fs) {
-    createPath(fs, "scavenger/data", callback)
+    createPath(fs, "scavenger/images", callback)
     uploadImages(fs)
 }
 
