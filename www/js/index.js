@@ -70,38 +70,7 @@ var app = {
 };
 
 function loadConfig() {
-    if ($('#teambuilding-selector').val() != -1) {
-        var url = 'http://scavenger.h-vision.com/app/backend/mobile.php?action=single&id=' + $('#teambuilding-selector').val();
-        $.mobile.loading('show');
-        $.ajax({
-            url: url,
-            dataType: 'jsonp',
-            jsonp: 'loadList',
-            timeout: 5000,
-            success: function (data, status) {
-                $.each(data, function (i, item) {
-                    var saveString = JSON.stringify(item);
-                    var writer = new FileWriter("/sdcard/scavenger/data/config.txt");
 
-                    writer.onwriteend = function (evt) {
-                        uploadImages();
-                    };
-                    writer.write(saveString, false);
-
-                });
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        });
-    } else {
-        alert("Please select a teambuilding!");
-    }
-
-}
-
-
-function uploadImages() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);
     function fail(evt) {
         alert("FILE SYSTEM FAILURE" + evt.target.error.code);
@@ -111,12 +80,71 @@ function uploadImages() {
     function onFileSystemSuccess(fileSystem) {
 
         fileSystem.root.getDirectory(
+            "scavenger/data",
+            {create: true, exclusive: false},
+            function (entry) {
+                if ($('#teambuilding-selector').val() != -1) {
+                    var url = 'http://scavenger.h-vision.com/app/backend/mobile.php?action=single&id=' + $('#teambuilding-selector').val();
+                    $.mobile.loading('show');
+                    $.ajax({
+                        url: url,
+                        dataType: 'jsonp',
+                        jsonp: 'loadList',
+                        timeout: 5000,
+                        success: function (data, status) {
+                            $.each(data, function (i, item) {
+                                var saveString = JSON.stringify(item);
+                                var writer = new FileWriter("/sdcard/scavenger/data/config.txt");
+
+                                writer.onwriteend = function (evt) {
+                                    uploadImages();
+                                };
+                                writer.write(saveString, false);
+
+                            });
+                        },
+                        error: function (e) {
+                            console.log(e);
+                        }
+                    });
+                } else {
+                    alert("Please select a teambuilding!");
+                }
+            }, fail);
+    }
+}
+
+function uploadImages() {
+    alert('end');
+    return false;
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);
+    function fail(evt) {
+        alert("FILE SYSTEM FAILURE" + evt.target.error.code);
+        $.mobile.loading('hide');
+    }
+
+    function onGetDirectorySuccess(dir) {
+        console.log("Created dir " + dir.name);
+        $.mobile.loading('hide');
+    }
+
+    function onGetDirectoryFail(error) {
+        console.log("Error creating directory " + error.code);
+    }
+
+    function onFileSystemSuccess(fileSystem) {
+
+        fileSystem.root.getDirectory(
             "scavenger/images",
             {create: true, exclusive: false},
             function (entry) {
                 entry.removeRecursively(function () {
-                    console.log('removed I hope');
-                    $.mobile.loading('hide');
+                    var entry = fileSystem.root;
+                    entry.getDirectory("scavenger/images", {
+                        create: true,
+                        exclusive: false
+                    }, onGetDirectorySuccess, onGetDirectoryFail);
+
                 }, fail);
             }, fail);
     }
