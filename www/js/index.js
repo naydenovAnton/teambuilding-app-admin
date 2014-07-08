@@ -2,26 +2,34 @@ var url = 'http://rcss.eu/work/hbuilding/admin/teamlist.php';
 
 var app = {
     // Application Constructor
-    initialize: function() {
+    initialize: function () {
         this.bindEvents();
     },
-    bindEvents: function() {
+    bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
-    onDeviceReady: function() {
+    onDeviceReady: function () {
         app.receivedEvent('deviceready');
     },
-    receivedEvent: function(id) {
+    receivedEvent: function (id) {
         this.showLoginForm();
     },
-    showLoginForm: function() {
-        $('.login-form').fadeIn(400, function() {
-            $('.login-form').find('a').click(function() {
+    showLoginForm: function () {
+        $('.login-form').fadeIn(400, function () {
+            $('.login-form').find('a').click(function () {
                 if ($('#password').val() == 'admin' && $('#username').val() == 'admin') {
                     //$.mobile.loading('show');
 
+                    $.getJSON('http://scavenger.h-vision.com/app/backend/api.php' +
+                    '?getJson&id=91&callback=?', function (data) {
+                        console.log(data);
+//                        $.each(data.results, function (index, value) {
+//
+//                            $('#target').append(value.text + '<br>');
+//
+//                        });
 
-                    console.log('admin yes');
+                    });
 
 
 //                    var url = 'http://scavenger.h-vision.com/app/backend/api.php?r=getJson&id=91';
@@ -87,7 +95,7 @@ function loadConfig() {
             },
             jsonp: 'jsoncallback',
             timeout: 5000,
-            success: function(data, status) {
+            success: function (data, status) {
                 var dataToStore = data;
                 window.localStorage.setItem('configTeambuilding', dataToStore);
                 var localData = JSON.parse(window.localStorage.getItem('configTeambuilding'));
@@ -95,7 +103,7 @@ function loadConfig() {
                 $.mobile.loading('hide');
                 startDownloads(localData);
             },
-            error: function() {
+            error: function () {
                 alert('There was an error loading the data.');
                 $.mobile.loading('show');
             }
@@ -182,7 +190,6 @@ function loadConfig() {
 //    });
 //}
 
-function exitFromApp()
-{
+function exitFromApp() {
     navigator.app.exitApp();
 }
