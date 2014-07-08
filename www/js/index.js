@@ -19,30 +19,20 @@ var app = {
             $('.login-form').find('a').click(function () {
                 if ($('#password').val() == 'admin' && $('#username').val() == 'admin') {
                     //$.mobile.loading('show');
+                    console.log('before load');
+                    
+                    var url = 'http://scavenger.h-vision.com/app/backend/api.php?r=scavengerListForMobile';
+                    var selectList = '<option value="-1" selected>Select teambuilding</option>';
+                    $.ajax({
+                        url: url,
+                        dataType: 'jsonp',
+                        jsonp: 'jsoncallback',
+                        timeout: 5000,
+                        success: function(data) {
 
-                    $.getJSON('http://scavenger.h-vision.com/app/backend/api.php?r=scavengerListForMobile&callback=?', function (data) {
-                        console.log(data);
-//                        $.each(data.results, function (index, value) {
-//
-//                            $('#target').append(value.text + '<br>');
-//
-//                        });
+                            console.log(data);
+                            return false;
 
-                    });
-
-
-//                    var url = 'http://scavenger.h-vision.com/app/backend/api.php?r=getJson&id=91';
-//                    var selectList = '<option value="-1" selected>Select teambuilding</option>';
-//                    $.ajax({
-//                        url: url,
-//                        dataType: 'jsonp',
-//                        jsonp: 'jsoncallback',
-//                        timeout: 5000,
-//                        success: function(data) {
-//
-//                            console.log(data);
-//                            return false;
-//
 //                            $.each(data, function(i, item) {
 //                                selectList += '<option value="' + item.id + '">' + item.name + '/' + item.company + '</option>';
 //                            });
@@ -64,12 +54,13 @@ var app = {
 //                                    });
 //                                });
 //                            }
-//                        },
-//                        error: function() {
-//                            alert.text('There was an error loading the data.');
-//                            $.mobile.loading('hide');
-//                        }
-//                    });
+                        },
+                        error: function() {
+                            console.log('error');
+                            alert.text('There was an error loading the data.');
+                            $.mobile.loading('hide');
+                        }
+                    });
                 } else {
                     alert('Your username or password is incorrect. Please try again!');
                     $('#username').val('');
