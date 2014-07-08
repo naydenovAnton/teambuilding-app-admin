@@ -1,74 +1,73 @@
 var url = 'http://rcss.eu/work/hbuilding/admin/teamlist.php';
 
 var app = {
-        // Application Constructor
-        initialize: function () {
-            this.bindEvents();
-        },
-        bindEvents: function () {
-            document.addEventListener('deviceready', this.onDeviceReady, false);
-        },
-        onDeviceReady: function () {
-            app.receivedEvent('deviceready');
-        },
-        receivedEvent: function (id) {
-            this.showLoginForm();
-        },
-        showLoginForm: function () {
-            $('.login-form').fadeIn(400, function () {
-                $('.login-form').find('a').click(function () {
-                        if ($('#password').val() == 'admin' && $('#username').val() == 'admin') {
+    // Application Constructor
+    initialize: function () {
+        this.bindEvents();
+    },
+    bindEvents: function () {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+    },
+    onDeviceReady: function () {
+        app.receivedEvent('deviceready');
+    },
+    receivedEvent: function (id) {
+        this.showLoginForm();
+    },
+    showLoginForm: function () {
+        $('.login-form').fadeIn(400, function () {
+            $('.login-form').find('a').click(function () {
+                    if ($('#password').val() == 'admin' && $('#username').val() == 'admin') {
 
-                            $.mobile.loading('show');
-                            var selectList = '<option value="-1" selected>Select teambuilding</option>';
+                        $.mobile.loading('show');
+                        var selectList = '<option value="-1" selected>Select teambuilding</option>';
 
-                            $.ajax({
-                                url: 'http://scavenger.h-vision.com/app/backend/mobile.php?action=list',
-                                dataType: 'jsonp',
-                                jsonp: 'loadList',
-                                timeout: 5000,
-                                success: function (data, status) {
-                                    $.each(data, function (i, item) {
-                                        selectList += '<option value="' + item.id + '">' + item.title + '</option>';
-                                    });
+                        $.ajax({
+                            url: 'http://scavenger.h-vision.com/app/backend/mobile.php?action=list',
+                            dataType: 'jsonp',
+                            jsonp: 'loadList',
+                            timeout: 5000,
+                            success: function (data, status) {
+                                $.each(data, function (i, item) {
+                                    selectList += '<option value="' + item.id + '">' + item.title + '</option>';
+                                });
 
-                                    if (selectList !== '') {
-                                        $('.login-form').fadeOut();
-                                        $('.login').animate({
-                                            top: '15%'
-                                        }, 1000, function () {
-                                            $.mobile.loading('hide');
-                                            $('.log-out').fadeIn();
-                                            $('#teambuilding-selector').append(selectList).after(function () {
-                                                $('.selector-wrap').fadeIn();
-                                                $('#store-json').click(function () {
-                                                    loadConfig();
-                                                    return false;
-                                                });
+                                if (selectList !== '') {
+                                    $('.login-form').fadeOut();
+                                    $('.login').animate({
+                                        top: '15%'
+                                    }, 1000, function () {
+                                        $.mobile.loading('hide');
+                                        $('.log-out').fadeIn();
+                                        $('#teambuilding-selector').append(selectList).after(function () {
+                                            $('.selector-wrap').fadeIn();
+                                            $('#store-json').click(function () {
+                                                loadConfig();
+                                                return false;
                                             });
                                         });
-                                    }
-                                },
-                                error: function (e) {
-                                    console.log(e);
+                                    });
                                 }
-                            });
-                        }
-                        else {
-                            alert('Your username or password is incorrect. Please try again!');
-                            $('#username').val('');
-                            $('#password').val('');
-                        }
-
-                        return false;
+                            },
+                            error: function (e) {
+                                console.log(e);
+                            }
+                        });
                     }
-                )
-                ;
-            })
+                    else {
+                        alert('Your username or password is incorrect. Please try again!');
+                        $('#username').val('');
+                        $('#password').val('');
+                    }
+
+                    return false;
+                }
+            )
             ;
-        }
+        })
+        ;
     }
-    ;
+};
 
 function loadConfig() {
     if ($('#teambuilding-selector').val() != -1) {
@@ -81,7 +80,12 @@ function loadConfig() {
             timeout: 5000,
             success: function (data, status) {
                 $.each(data, function (i, item) {
-                    console.log(item);
+                    var saveString = JSON.stringify(item);
+                    console.log(saveString);
+
+                    var writer = new FileWriter("/sdcard/write.txt");
+                    writer.write('tarator' + "\n", false);
+                    alert("file Written to SD Card");
                 });
             },
             error: function (e) {
