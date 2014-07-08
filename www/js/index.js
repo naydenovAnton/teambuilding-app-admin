@@ -83,12 +83,12 @@ function loadConfig() {
                     var saveString = JSON.stringify(item);
                     console.log(saveString);
 
-                    var writer = new FileWriter("/sdcard/scavenger/data/config.json");
+                    var writer = new FileWriter("/sdcard/scavenger/data/config.txt");
 
-                    writer.onwriteend = function(evt) {
+                    writer.onwriteend = function (evt) {
                         alert("file Written to SD Card");
                     };
-                    writer.write('tarator' + "\n", false);
+                    writer.write(saveString, false);
 
                 });
             },
