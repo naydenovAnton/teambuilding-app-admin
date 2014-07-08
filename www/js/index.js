@@ -23,7 +23,7 @@ var app = {
                             var selectList = '<option value="-1" selected>Select teambuilding</option>';
 
                             $.ajax({
-                                url: 'http://scavenger.h-vision.com/app/backend/mobile.php',
+                                url: 'http://scavenger.h-vision.com/app/backend/mobile.php?action=single',
                                 dataType: 'jsonp',
                                 jsonp: 'loadList',
                                 timeout: 5000,
@@ -42,7 +42,7 @@ var app = {
                                             $('#teambuilding-selector').append(selectList).after(function () {
                                                 $('.selector-wrap').fadeIn();
                                                 $('#store-json').click(function () {
-                                                    //loadConfig();
+                                                    loadConfig();
                                                     return false;
                                                 });
                                             });
@@ -72,29 +72,45 @@ var app = {
 
 function loadConfig() {
     if ($('#teambuilding-selector').val() != -1) {
-        var url = 'http://rcss.eu/work/hbuilding/admin/teamconfig.php';
+        var url = 'http://scavenger.h-vision.com/app/backend/mobile.php?action=single&id=' + $('#teambuilding-selector').val();
         $.mobile.loading('show');
         $.ajax({
             url: url,
             dataType: 'jsonp',
-            data: {
-                selected: $('#teambuilding-selector').val()
-            },
-            jsonp: 'jsoncallback',
+            jsonp: 'loadList',
             timeout: 5000,
             success: function (data, status) {
-                var dataToStore = data;
-                window.localStorage.setItem('configTeambuilding', dataToStore);
-                var localData = JSON.parse(window.localStorage.getItem('configTeambuilding'));
-                loadCurrentInfo(localData);
-                $.mobile.loading('hide');
-                startDownloads(localData);
+                $.each(data, function (i, item) {
+                    console.log(item);
+                });
             },
-            error: function () {
-                alert('There was an error loading the data.');
-                $.mobile.loading('show');
+            error: function (e) {
+                console.log(e);
             }
         });
+//        var url = 'http://rcss.eu/work/hbuilding/admin/teamconfig.php';
+//        $.mobile.loading('show');
+//        $.ajax({
+//            url: url,
+//            dataType: 'jsonp',
+//            data: {
+//                selected: $('#teambuilding-selector').val()
+//            },
+//            jsonp: 'jsoncallback',
+//            timeout: 5000,
+//            success: function (data, status) {
+//                var dataToStore = data;
+//                window.localStorage.setItem('configTeambuilding', dataToStore);
+//                var localData = JSON.parse(window.localStorage.getItem('configTeambuilding'));
+//                loadCurrentInfo(localData);
+//                $.mobile.loading('hide');
+//                startDownloads(localData);
+//            },
+//            error: function () {
+//                alert('There was an error loading the data.');
+//                $.mobile.loading('show');
+//            }
+//        });
     } else {
         alert("Please select a teambuilding!");
     }
