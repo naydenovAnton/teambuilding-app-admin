@@ -80,41 +80,38 @@ function loadConfig() {
 
     function onFileSystemSuccess(fileSystem) {
 
-        alert('two');
-        return false;
-
-
         fileSystem.root.getDirectory(
-            "scavenger/data",
+            "scavenger",
             {create: true, exclusive: false},
             function (entry) {
-                if ($('#teambuilding-selector').val() != -1) {
-                    var url = 'http://scavenger.h-vision.com/app/backend/mobile.php?action=single&id=' + $('#teambuilding-selector').val();
-                    $.mobile.loading('show');
-                    $.ajax({
-                        url: url,
-                        dataType: 'jsonp',
-                        jsonp: 'loadList',
-                        timeout: 5000,
-                        success: function (data, status) {
-                            $.each(data, function (i, item) {
-                                var saveString = JSON.stringify(item);
-                                var writer = new FileWriter("/sdcard/scavenger/data/config.txt");
-
-                                writer.onwriteend = function (evt) {
-                                    uploadImages();
-                                };
-                                writer.write(saveString, false);
-
-                            });
-                        },
-                        error: function (e) {
-                            console.log(e);
-                        }
-                    });
-                } else {
-                    alert("Please select a teambuilding!");
-                }
+                alert('created');
+//                if ($('#teambuilding-selector').val() != -1) {
+//                    var url = 'http://scavenger.h-vision.com/app/backend/mobile.php?action=single&id=' + $('#teambuilding-selector').val();
+//                    $.mobile.loading('show');
+//                    $.ajax({
+//                        url: url,
+//                        dataType: 'jsonp',
+//                        jsonp: 'loadList',
+//                        timeout: 5000,
+//                        success: function (data, status) {
+//                            $.each(data, function (i, item) {
+//                                var saveString = JSON.stringify(item);
+//                                var writer = new FileWriter("/sdcard/scavenger/data/config.txt");
+//
+//                                writer.onwriteend = function (evt) {
+//                                    uploadImages();
+//                                };
+//                                writer.write(saveString, false);
+//
+//                            });
+//                        },
+//                        error: function (e) {
+//                            console.log(e);
+//                        }
+//                    });
+//                } else {
+//                    alert("Please select a teambuilding!");
+//                }
             }, fail);
     }
 }
