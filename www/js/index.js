@@ -18,46 +18,51 @@ var app = {
         $('.login-form').fadeIn(400, function() {
             $('.login-form').find('a').click(function() {
                 if ($('#password').val() == 'admin' && $('#username').val() == 'admin') {
-                    $.mobile.loading('show');
-                    var url = 'http://scavenger.h-vision.com/app/backend/api.php?r=getJson&id=91';
-                    var selectList = '<option value="-1" selected>Select teambuilding</option>';
-                    $.ajax({
-                        url: url,
-                        dataType: 'jsonp',
-                        jsonp: 'jsoncallback',
-                        timeout: 5000,
-                        success: function(data) {
+                    //$.mobile.loading('show');
 
-                            console.log(data);
-                            return false;
 
-                            $.each(data, function(i, item) {
-                                selectList += '<option value="' + item.id + '">' + item.name + '/' + item.company + '</option>';
-                            });
-                            if (selectList !== '') {
-                                $('.login-form').fadeOut();
-                                $('.login').animate({
-                                    top: '15%'
-                                }, 1000, function() {
-                                    $.mobile.loading('hide');
-                                    $('.log-out').fadeIn();
-                                    $('#teambuilding-selector').append(selectList).after(function() {
-                                        $('.selector-wrap').fadeIn();
-                                        //var localData = JSON.parse(window.localStorage.getItem('configTeambuilding'));
-                                        //loadCurrentInfo(localData);
-                                        $('#store-json').click(function() {
-                                            //loadConfig();
-                                            return false;
-                                        });
-                                    });
-                                });
-                            }
-                        },
-                        error: function() {
-                            alert.text('There was an error loading the data.');
-                            $.mobile.loading('hide');
-                        }
-                    });
+                    console.log('admin yes');
+
+
+//                    var url = 'http://scavenger.h-vision.com/app/backend/api.php?r=getJson&id=91';
+//                    var selectList = '<option value="-1" selected>Select teambuilding</option>';
+//                    $.ajax({
+//                        url: url,
+//                        dataType: 'jsonp',
+//                        jsonp: 'jsoncallback',
+//                        timeout: 5000,
+//                        success: function(data) {
+//
+//                            console.log(data);
+//                            return false;
+//
+//                            $.each(data, function(i, item) {
+//                                selectList += '<option value="' + item.id + '">' + item.name + '/' + item.company + '</option>';
+//                            });
+//                            if (selectList !== '') {
+//                                $('.login-form').fadeOut();
+//                                $('.login').animate({
+//                                    top: '15%'
+//                                }, 1000, function() {
+//                                    $.mobile.loading('hide');
+//                                    $('.log-out').fadeIn();
+//                                    $('#teambuilding-selector').append(selectList).after(function() {
+//                                        $('.selector-wrap').fadeIn();
+//                                        //var localData = JSON.parse(window.localStorage.getItem('configTeambuilding'));
+//                                        //loadCurrentInfo(localData);
+//                                        $('#store-json').click(function() {
+//                                            //loadConfig();
+//                                            return false;
+//                                        });
+//                                    });
+//                                });
+//                            }
+//                        },
+//                        error: function() {
+//                            alert.text('There was an error loading the data.');
+//                            $.mobile.loading('hide');
+//                        }
+//                    });
                 } else {
                     alert('Your username or password is incorrect. Please try again!');
                     $('#username').val('');
