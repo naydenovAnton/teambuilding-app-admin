@@ -81,7 +81,7 @@ function loadConfig() {
     function onFileSystemSuccess(fileSystem) {
 
         fileSystem.root.getDirectory(
-            "scavenger",
+            "scavenger/data/",
             {create: true, exclusive: false},
             function (entry) {
                 alert('created');
