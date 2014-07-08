@@ -110,36 +110,26 @@ function uploadImages() {
 
     function onFileSystemSuccess(fileSystem) {
 
-        alert('opala tropala dotuk dobre');
-        return false;
-
         fileSystem.root.getDirectory(
-                "teambuilding",
-                {create: true, exclusive: false},
-        function(entry) {
-            entry.removeRecursively(function() {
-                var localData = JSON.parse(window.localStorage.getItem('configTeambuilding'));
-                if (parseInt(localData.welcome.type, 10) === 1) {
-                    downloadFile(localData.welcome.image, 'welcome/image/welcome.png');
-                } else if (parseInt(localData.welcome.type) === 2) {
-                    downloadFile(localData.welcome.video, 'welcome/video/welcome.mp4');
-                } else {
-                    alert('Unsuported upload!');
+            "scavenger/images",
+            {create: true, exclusive: false},
+            function (entry) {
+                entry.removeRecursively(function () {
+                    console.log('removed I hope');
                     $.mobile.loading('hide');
-                }
+                }, fail);
             }, fail);
-        }, fail);
     }
 }
 
 function downloadFile(url, filename) {
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
         var imagePath = fs.root.fullPath + "/teambuilding/" + filename;
         var fileTransfer = new FileTransfer();
-        fileTransfer.download(url, imagePath, function(entry) {
+        fileTransfer.download(url, imagePath, function (entry) {
             $.mobile.loading('hide');
             downloadImages();
-        }, function(error) {
+        }, function (error) {
             console.log(error);
         });
     });
