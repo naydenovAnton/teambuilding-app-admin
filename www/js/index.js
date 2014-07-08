@@ -23,7 +23,7 @@ var app = {
                             var selectList = '<option value="-1" selected>Select teambuilding</option>';
 
                             $.ajax({
-                                url: 'http://scavenger.h-vision.com/app/backend/mobile.php?action=single',
+                                url: 'http://scavenger.h-vision.com/app/backend/mobile.php?action=list',
                                 dataType: 'jsonp',
                                 jsonp: 'loadList',
                                 timeout: 5000,
