@@ -142,40 +142,42 @@ function createPath(fs, path, callback) {
     createDir(dirs.pop());
 }
 
-function uploadImages() {
-    alert('end');
-    return false;
-//    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);
-//    function fail(evt) {
-//        alert("FILE SYSTEM FAILURE" + evt.target.error.code);
-//        $.mobile.loading('hide');
-//    }
-//
-//    function onGetDirectorySuccess(dir) {
-//        console.log("Created dir " + dir.name);
-//        $.mobile.loading('hide');
-//    }
-//
-//    function onGetDirectoryFail(error) {
-//        console.log("Error creating directory " + error.code);
-//    }
-//
-//    function onFileSystemSuccess(fileSystem) {
-//
-//        fileSystem.root.getDirectory(
-//            "scavenger/images",
-//            {create: true, exclusive: false},
-//            function (entry) {
-//                entry.removeRecursively(function () {
-//                    var entry = fileSystem.root;
-//                    entry.getDirectory("scavenger/images", {
-//                        create: true,
-//                        exclusive: false
-//                    }, onGetDirectorySuccess, onGetDirectoryFail);
-//
-//                }, fail);
-//            }, fail);
-//    }
+function uploadImages(fs) {
+    alert('e veche ot tuk');
+}
+
+function createImageDir(fs) {
+    createPath(fs, "scavenger/data", callback)
+    uploadImages(fs)
+}
+
+function prapareImageUpload() {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);
+    function fail(evt) {
+        alert("FILE SYSTEM FAILURE" + evt.target.error.code);
+        $.mobile.loading('hide');
+    }
+
+    function onGetDirectorySuccess(dir) {
+        console.log("Created dir " + dir.name);
+        $.mobile.loading('hide');
+    }
+
+    function onGetDirectoryFail(error) {
+        console.log("Error creating directory " + error.code);
+    }
+
+    function onFileSystemSuccess(fileSystem) {
+
+        fileSystem.root.getDirectory(
+            "scavenger/images",
+            {create: true, exclusive: false},
+            function (entry) {
+                entry.removeRecursively(function () {
+                    createImageDir(fileSystem);
+                }, fail);
+            }, fail);
+    }
 }
 
 function downloadFile(url, filename) {
