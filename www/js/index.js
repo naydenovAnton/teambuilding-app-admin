@@ -1,113 +1,74 @@
 var url = 'http://rcss.eu/work/hbuilding/admin/teamlist.php';
 
 var app = {
-    // Application Constructor
-    initialize: function () {
-        this.bindEvents();
-    },
-    bindEvents: function () {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-    },
-    onDeviceReady: function () {
-        app.receivedEvent('deviceready');
-    },
-    receivedEvent: function (id) {
-        this.showLoginForm();
-    },
-    showLoginForm: function () {
-        $('.login-form').fadeIn(400, function () {
-            $('.login-form').find('a').click(function () {
-                if ($('#password').val() == 'admin' && $('#username').val() == 'admin') {
-                    //$.mobile.loading('show');
-                    console.log('before load');
+        // Application Constructor
+        initialize: function () {
+            this.bindEvents();
+        },
+        bindEvents: function () {
+            document.addEventListener('deviceready', this.onDeviceReady, false);
+        },
+        onDeviceReady: function () {
+            app.receivedEvent('deviceready');
+        },
+        receivedEvent: function (id) {
+            this.showLoginForm();
+        },
+        showLoginForm: function () {
+            $('.login-form').fadeIn(400, function () {
+                $('.login-form').find('a').click(function () {
+                        if ($('#password').val() == 'admin' && $('#username').val() == 'admin') {
 
-                    $.ajax({
-                        url: 'http://scavenger.h-vision.com/app/backend/mobile.php',
-                        dataType: 'jsonp',
-                        jsonp: 'loadList',
-                        timeout: 5000,
-                        success: function (data, status) {
-                            console.log(data);
-                            //data loaded
-                        },
-                        error: function (e) {
-                            console.log(e);
-                            //error loading data
+                            $.mobile.loading('show');
+                            var selectList = '<option value="-1" selected>Select teambuilding</option>';
+
+                            $.ajax({
+                                url: 'http://scavenger.h-vision.com/app/backend/mobile.php',
+                                dataType: 'jsonp',
+                                jsonp: 'loadList',
+                                timeout: 5000,
+                                success: function (data, status) {
+                                    $.each(data, function (i, item) {
+                                        selectList += '<option value="' + item.id + '">' + item.name + '/' + item.company + '</option>';
+                                    });
+
+                                    if (selectList !== '') {
+                                        $('.login-form').fadeOut();
+                                        $('.login').animate({
+                                            top: '15%'
+                                        }, 1000, function () {
+                                            $.mobile.loading('hide');
+                                            $('.log-out').fadeIn();
+                                            $('#teambuilding-selector').append(selectList).after(function () {
+                                                $('.selector-wrap').fadeIn();
+                                                $('#store-json').click(function () {
+                                                    //loadConfig();
+                                                    return false;
+                                                });
+                                            });
+                                        });
+                                    }
+                                },
+                                error: function (e) {
+                                    console.log(e);
+                                }
+                            });
                         }
-                    });
-//                    var url = 'http://scavenger.h-vision.com/app/backend/api.php';
-//                    var selectList = '<option value="-1" selected>Select teambuilding</option>';
-//
-//                    v$.ajax({
-//                        type: 'GET',
-//                        url: url,
-//                        async: false,
-//                        jsonpCallback: 'scavengerListForMobile',
-//                        contentType: "application/json",
-//                        dataType: 'jsonp',
-//                        success: function(json) {
-//                            console.dir(json);
-//                        },
-//                        error: function(e) {
-//                            console.log(e.message);
-//                        }
-//                    });
-//
-//                    $.ajax({
-//                        url: url,
-//                        dataType: 'text',
-//                        jsonp: 'jsoncallback',
-//                        timeout: 5000,
-//                        success: function(data) {
-//
-//                            console.log(data);
-//                            return false;
+                        else {
+                            alert('Your username or password is incorrect. Please try again!');
+                            $('#username').val('');
+                            $('#password').val('');
+                        }
 
-//                            $.each(data, function(i, item) {
-//                                selectList += '<option value="' + item.id + '">' + item.name + '/' + item.company + '</option>';
-//                            });
-//                            if (selectList !== '') {
-//                                $('.login-form').fadeOut();
-//                                $('.login').animate({
-//                                    top: '15%'
-//                                }, 1000, function() {
-//                                    $.mobile.loading('hide');
-//                                    $('.log-out').fadeIn();
-//                                    $('#teambuilding-selector').append(selectList).after(function() {
-//                                        $('.selector-wrap').fadeIn();
-//                                        //var localData = JSON.parse(window.localStorage.getItem('configTeambuilding'));
-//                                        //loadCurrentInfo(localData);
-//                                        $('#store-json').click(function() {
-//                                            //loadConfig();
-//                                            return false;
-//                                        });
-//                                    });
-//                                });
-//                            }
-//                }
-//                ,
-//                error: function (jqXHR, textStatus) {
-//                    console.log(textStatus);
-//                    $.mobile.loading('hide');
-//                }
-//            });
+                        return false;
+                    }
+                )
+                ;
+            })
+            ;
         }
-        else
-        {
-            alert('Your username or password is incorrect. Please try again!');
-            $('#username').val('');
-            $('#password').val('');
-        }
-
-        return false;
     }
-)
-;
-})
-;
-}
-}
-;
+    ;
 
 function loadConfig() {
     if ($('#teambuilding-selector').val() != -1) {
