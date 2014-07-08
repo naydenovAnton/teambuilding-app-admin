@@ -20,8 +20,7 @@ var app = {
                 if ($('#password').val() == 'admin' && $('#username').val() == 'admin') {
                     //$.mobile.loading('show');
 
-                    $.getJSON('http://scavenger.h-vision.com/app/backend/api.php' +
-                    '?getJson&id=91&callback=?', function (data) {
+                    $.getJSON('http://scavenger.h-vision.com/app/backend/api.php?r=scavengerListForMobile&callback=?', function (data) {
                         console.log(data);
 //                        $.each(data.results, function (index, value) {
 //
