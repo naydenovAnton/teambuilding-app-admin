@@ -147,8 +147,7 @@ function uploadImages(fs) {
 }
 
 function createImageDir(fs) {
-    createPath(fs, "scavenger/images", callback)
-    uploadImages(fs)
+    createPath(fs, "scavenger/images", uploadImages);
 }
 
 function prapareImageUpload() {
