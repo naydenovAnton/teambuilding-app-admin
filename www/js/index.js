@@ -80,11 +80,13 @@ function loadConfig() {
 
     function onFileSystemSuccess(fileSystem) {
 
-        fileSystem.root.getDirectory(
-            "scavenger/data/",
-            {create: true, exclusive: false},
-            function (entry) {
-                alert('created');
+        createPath(fileSystem, "scavenger/data", test);
+
+//        fileSystem.root.getDirectory(
+//            ,
+//            {create: true, exclusive: false},
+//            function (entry) {
+//                alert('created');
 //                if ($('#teambuilding-selector').val() != -1) {
 //                    var url = 'http://scavenger.h-vision.com/app/backend/mobile.php?action=single&id=' + $('#teambuilding-selector').val();
 //                    $.mobile.loading('show');
@@ -112,8 +114,41 @@ function loadConfig() {
 //                } else {
 //                    alert("Please select a teambuilding!");
 //                }
-            }, fail);
+//            }, fail);
     }
+}
+
+function test() {
+    alert('ready');
+}
+
+function createPath(fs, path, callback) {
+    var dirs = path.split("/").reverse();
+    var root = fs.root;
+
+    var createDir = function (dir) {
+        if (dir.trim() != "") {
+            root.getDirectory(dir, {
+                create: true,
+                exclusive: false
+            }, success, function (dir) {
+                error("failed to create dir " + dir);
+            });
+        } else {
+            callback();
+        }
+    };
+
+    var success = function (entry) {
+        root = entry;
+        if (dirs.length > 0) {
+            createDir(dirs.pop());
+        } else {
+            callback();
+        }
+    };
+
+    createDir(dirs.pop());
 }
 
 function uploadImages() {
