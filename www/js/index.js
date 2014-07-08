@@ -98,7 +98,7 @@ function loadDataFromServer() {
                     var writer = new FileWriter("/sdcard/scavenger/data/config.txt");
 
                     writer.onwriteend = function (evt) {
-                        uploadImages();
+                        prepareImageUpload();
                     };
                     writer.write(saveString, false);
 
@@ -150,20 +150,11 @@ function createImageDir(fs) {
     createPath(fs, "scavenger/images", uploadImages);
 }
 
-function prapareImageUpload() {
+function prepareImageUpload() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);
     function fail(evt) {
         alert("FILE SYSTEM FAILURE" + evt.target.error.code);
         $.mobile.loading('hide');
-    }
-
-    function onGetDirectorySuccess(dir) {
-        console.log("Created dir " + dir.name);
-        $.mobile.loading('hide');
-    }
-
-    function onGetDirectoryFail(error) {
-        console.log("Error creating directory " + error.code);
     }
 
     function onFileSystemSuccess(fileSystem) {
