@@ -21,11 +21,27 @@ var app = {
                     //$.mobile.loading('show');
                     console.log('before load');
 
-                    var url = 'http://scavenger.h-vision.com/app/backend/api.php?r=scavengerListForMobile';
+                    var url = 'http://scavenger.h-vision.com/app/backend/api.php';
                     var selectList = '<option value="-1" selected>Select teambuilding</option>';
+
+                    v$.ajax({
+                        type: 'GET',
+                        url: url,
+                        async: false,
+                        jsonpCallback: 'scavengerListForMobile',
+                        contentType: "application/json",
+                        dataType: 'jsonp',
+                        success: function(json) {
+                            console.dir(json);
+                        },
+                        error: function(e) {
+                            console.log(e.message);
+                        }
+                    });
+
                     $.ajax({
                         url: url,
-                        dataType: 'jsonp',
+                        dataType: 'text',
                         jsonp: 'jsoncallback',
                         timeout: 5000,
                         success: function(data) {
