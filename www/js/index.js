@@ -81,12 +81,10 @@ function loadConfig() {
             success: function (data, status) {
                 $.each(data, function (i, item) {
                     var saveString = JSON.stringify(item);
-                    console.log(saveString);
-
                     var writer = new FileWriter("/sdcard/scavenger/data/config.txt");
 
                     writer.onwriteend = function (evt) {
-                        alert("file Written to SD Card");
+                        uploadImages();
                     };
                     writer.write(saveString, false);
 
@@ -96,95 +94,65 @@ function loadConfig() {
                 console.log(e);
             }
         });
-//        var url = 'http://rcss.eu/work/hbuilding/admin/teamconfig.php';
-//        $.mobile.loading('show');
-//        $.ajax({
-//            url: url,
-//            dataType: 'jsonp',
-//            data: {
-//                selected: $('#teambuilding-selector').val()
-//            },
-//            jsonp: 'jsoncallback',
-//            timeout: 5000,
-//            success: function (data, status) {
-//                var dataToStore = data;
-//                window.localStorage.setItem('configTeambuilding', dataToStore);
-//                var localData = JSON.parse(window.localStorage.getItem('configTeambuilding'));
-//                loadCurrentInfo(localData);
-//                $.mobile.loading('hide');
-//                startDownloads(localData);
-//            },
-//            error: function () {
-//                alert('There was an error loading the data.');
-//                $.mobile.loading('show');
-//            }
-//        });
     } else {
         alert("Please select a teambuilding!");
     }
 
 }
 
-//function startDownloads(localData) {
-//    $.mobile.loading('show');
-//    ClearDirectory(localData);
-//}
+
+function uploadImages() {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);
+    function fail(evt) {
+        alert("FILE SYSTEM FAILURE" + evt.target.error.code);
+        $.mobile.loading('hide');
+    }
+
+    function onFileSystemSuccess(fileSystem) {
+
+        alert('opaaa');
+        return false;
+
+        fileSystem.root.getDirectory(
+                "teambuilding",
+                {create: true, exclusive: false},
+        function(entry) {
+            entry.removeRecursively(function() {
+                var localData = JSON.parse(window.localStorage.getItem('configTeambuilding'));
+                if (parseInt(localData.welcome.type, 10) === 1) {
+                    downloadFile(localData.welcome.image, 'welcome/image/welcome.png');
+                } else if (parseInt(localData.welcome.type) === 2) {
+                    downloadFile(localData.welcome.video, 'welcome/video/welcome.mp4');
+                } else {
+                    alert('Unsuported upload!');
+                    $.mobile.loading('hide');
+                }
+            }, fail);
+        }, fail);
+    }
+}
+
+function downloadFile(url, filename) {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
+        var imagePath = fs.root.fullPath + "/teambuilding/" + filename;
+        var fileTransfer = new FileTransfer();
+        fileTransfer.download(url, imagePath, function(entry) {
+            $.mobile.loading('hide');
+            downloadImages();
+        }, function(error) {
+            console.log(error);
+        });
+    });
+}
 //
-//function ClearDirectory(localData) {
-//    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);
-//    function fail(evt) {
-//        alert("FILE SYSTEM FAILURE" + evt.target.error.code);
-//        $.mobile.loading('hide');
-//    }
-//
-//    function onFileSystemSuccess(fileSystem) {
-//        fileSystem.root.getDirectory(
-//                "teambuilding",
-//                {create: true, exclusive: false},
-//        function(entry) {
-//            entry.removeRecursively(function() {
-//                var localData = JSON.parse(window.localStorage.getItem('configTeambuilding'));
-//                if (parseInt(localData.welcome.type, 10) === 1) {
-//                    downloadFile(localData.welcome.image, 'welcome/image/welcome.png');
-//                } else if (parseInt(localData.welcome.type) === 2) {
-//                    downloadFile(localData.welcome.video, 'welcome/video/welcome.mp4');
-//                } else {
-//                    alert('Unsuported upload!');
-//                    $.mobile.loading('hide');
-//                }
-//            }, fail);
-//        }, fail);
-//    }
-//}
-//
-//function loadCurrentInfo(localData) {
-//    $.mobile.loading('show');
-//    $('#current-teambuilding').html(localData.general.name);
-//    $('#current-place').html(localData.general.place);
-//    $('#current-wrap').fadeIn();
-//    $.mobile.loading('hide');
-//}
-//
-//function downloadFile(url, filename) {
-//    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
-//        var imagePath = fs.root.fullPath + "/teambuilding/" + filename;
-//        var fileTransfer = new FileTransfer();
-//        fileTransfer.download(url, imagePath, function(entry) {
-//            $.mobile.loading('hide');
-//            downloadImages();
-//        }, function(error) {
-//            console.log(error);
-//        });
-//    });
-//}
-//
+
 //function downloadImagesForTeambuilding(url, filename) {
-//    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
-//        var imagePath = fs.root.fullPath + "/teambuilding/" + filename;
+//    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+//        var imagePath = fs.root.fullPath + "/scavenger/images/" + filename;
 //        var fileTransfer = new FileTransfer();
-//        fileTransfer.download(url, imagePath, function(entry) {
+//        fileTransfer.download(url, imagePath, function (entry) {
 //            $.mobile.loading('hide');
-//        }, function(error) {
+//        }, function (error) {
 //            console.log(error);
 //        });
 //    });
