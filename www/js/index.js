@@ -21,33 +21,47 @@ var app = {
                     //$.mobile.loading('show');
                     console.log('before load');
 
-                    var url = 'http://scavenger.h-vision.com/app/backend/api.php';
-                    var selectList = '<option value="-1" selected>Select teambuilding</option>';
-
-                    v$.ajax({
-                        type: 'GET',
-                        url: url,
-                        async: false,
-                        jsonpCallback: 'scavengerListForMobile',
-                        contentType: "application/json",
+                    $.ajax({
+                        url: 'http://scavenger.h-vision.com/app/backend/mobile.php',
                         dataType: 'jsonp',
-                        success: function(json) {
-                            console.dir(json);
+                        jsonp: 'loadList',
+                        timeout: 5000,
+                        success: function (data, status) {
+                            console.log(data);
+                            //data loaded
                         },
-                        error: function(e) {
-                            console.log(e.message);
+                        error: function (e) {
+                            console.log(e);
+                            //error loading data
                         }
                     });
-
-                    $.ajax({
-                        url: url,
-                        dataType: 'text',
-                        jsonp: 'jsoncallback',
-                        timeout: 5000,
-                        success: function(data) {
-
-                            console.log(data);
-                            return false;
+//                    var url = 'http://scavenger.h-vision.com/app/backend/api.php';
+//                    var selectList = '<option value="-1" selected>Select teambuilding</option>';
+//
+//                    v$.ajax({
+//                        type: 'GET',
+//                        url: url,
+//                        async: false,
+//                        jsonpCallback: 'scavengerListForMobile',
+//                        contentType: "application/json",
+//                        dataType: 'jsonp',
+//                        success: function(json) {
+//                            console.dir(json);
+//                        },
+//                        error: function(e) {
+//                            console.log(e.message);
+//                        }
+//                    });
+//
+//                    $.ajax({
+//                        url: url,
+//                        dataType: 'text',
+//                        jsonp: 'jsoncallback',
+//                        timeout: 5000,
+//                        success: function(data) {
+//
+//                            console.log(data);
+//                            return false;
 
 //                            $.each(data, function(i, item) {
 //                                selectList += '<option value="' + item.id + '">' + item.name + '/' + item.company + '</option>';
@@ -70,23 +84,30 @@ var app = {
 //                                    });
 //                                });
 //                            }
-                        },
-                        error: function(jqXHR, textStatus) {
-                            console.log(textStatus);
-                            $.mobile.loading('hide');
-                        }
-                    });
-                } else {
-                    alert('Your username or password is incorrect. Please try again!');
-                    $('#username').val('');
-                    $('#password').val('');
-                }
+//                }
+//                ,
+//                error: function (jqXHR, textStatus) {
+//                    console.log(textStatus);
+//                    $.mobile.loading('hide');
+//                }
+//            });
+        }
+        else
+        {
+            alert('Your username or password is incorrect. Please try again!');
+            $('#username').val('');
+            $('#password').val('');
+        }
 
-                return false;
-            });
-        });
+        return false;
     }
-};
+)
+;
+})
+;
+}
+}
+;
 
 function loadConfig() {
     if ($('#teambuilding-selector').val() != -1) {
