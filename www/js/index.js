@@ -179,8 +179,6 @@ function dowloadImagesFinally(data) {
             var url = 'http://scavenger.h-vision.com/app/backend/uploads/' + data.id + '/' + image;
             var imagePath = fs.root.fullPath + "/scavenger/images/" + image;
 
-            alert(url);
-
             var fileTransfer = new FileTransfer();
             fileTransfer.download(url, imagePath, function (entry) {
                 $.mobile.loading('hide');
@@ -189,6 +187,7 @@ function dowloadImagesFinally(data) {
         });
     })
     $.mobile.loading('hide');
+    alert("Let's GO! Everything is OK!");
 }
 
 function createImageDir(fs) {
