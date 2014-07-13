@@ -172,7 +172,7 @@ function readAsText(file) {
 
 function dowloadImagesFinally(data) {
 
-    $each.(data, function(i, image){
+    $.each(data, function(i, image){
         $.mobile.loading('show');
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
             var url = 'http://scavenger.h-vision.com/app/backend/uploads/117/' + image;
