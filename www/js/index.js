@@ -162,7 +162,6 @@ function fail(evt) {
     alert(evt.target.error.code);
 }
 function readAsText(file) {
-    alert('5');
     var reader = new FileReader();
     reader.onloadend = function (evt) {
         dowloadImagesFinally(JSON.parse(evt.target.result));
