@@ -143,19 +143,32 @@ function createPath(fs, path, callback) {
 }
 
 function uploadImages(fs) {
-    fs.root.getFile("/sdcard/scavenger/data/config.txt", null, gotFileEntry, fail);
+    alert('1');
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
     //alert('e veche ot tuk');
 }
 
+function gotFS(fileSystem) {
+    alert('2');
+    fileSystem.root.getFile("/sdcard/scavenger/data/config.txt", null, gotFileEntry, fail);
+}
+
 function gotFileEntry(fileEntry) {
+    alert('3')
     fileEntry.file(gotFile, fail);
 }
 
 function gotFile(file) {
+    alert('4');
     readAsText(file);
 }
 
+function fail(evt) {
+    a;ert('6');
+    alert(evt.target.error.code);
+}
 function readAsText(file) {
+    alert('5');
     var reader = new FileReader();
     reader.onloadend = function (evt) {
         alert(evt.target.result);
