@@ -143,7 +143,25 @@ function createPath(fs, path, callback) {
 }
 
 function uploadImages(fs) {
-    alert('e veche ot tuk');
+    fs.root.getFile("/sdcard/scavenger/data/config.txt", null, gotFileEntry, fail);
+    //alert('e veche ot tuk');
+}
+
+function gotFileEntry(fileEntry) {
+    fileEntry.file(gotFile, fail);
+}
+
+function gotFile(file) {
+    readAsText(file);
+}
+
+function readAsText(file) {
+    var reader = new FileReader();
+    reader.onloadend = function (evt) {
+        alert(evt.target.result);
+//        createJson(evt.target.result);
+    };
+    reader.readAsText(file);
 }
 
 function createImageDir(fs) {
