@@ -143,38 +143,45 @@ function createPath(fs, path, callback) {
 }
 
 function uploadImages(fs) {
-    alert('1');
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
-    //alert('e veche ot tuk');
 }
 
 function gotFS(fileSystem) {
-    alert('2');
     fileSystem.root.getFile("/sdcard/scavenger/data/config.txt", null, gotFileEntry, fail);
 }
 
 function gotFileEntry(fileEntry) {
-    alert('3')
     fileEntry.file(gotFile, fail);
 }
 
 function gotFile(file) {
-    alert('4');
     readAsText(file);
 }
 
 function fail(evt) {
-    a;ert('6');
     alert(evt.target.error.code);
 }
 function readAsText(file) {
     alert('5');
     var reader = new FileReader();
     reader.onloadend = function (evt) {
-        alert(evt.target.result);
-//        createJson(evt.target.result);
+        dowloadImagesFinally(JSON.parse(evt.target.result));
     };
     reader.readAsText(file);
+}
+
+function dowloadImagesFinally(data) {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+        var imagePath = fs.root.fullPath + "/scavenger/images/" + "1.png";
+        var fileTransfer = new FileTransfer();
+        fileTransfer.download(url, imagePath, function (entry) {
+            $.mobile.loading('hide');
+            alert('down');
+        }, function (error) {
+            alert('allert');
+            console.log(error);
+        });
+    });
 }
 
 function createImageDir(fs) {
