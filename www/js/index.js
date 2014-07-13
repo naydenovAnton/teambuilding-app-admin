@@ -172,6 +172,7 @@ function readAsText(file) {
 
 function dowloadImagesFinally(data) {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+        var url = 'http://scavenger.h-vision.com/app/backend/uploads/117/1.png';
         var imagePath = fs.root.fullPath + "/scavenger/images/" + "1.png";
         var fileTransfer = new FileTransfer();
         fileTransfer.download(url, imagePath, function (entry) {
