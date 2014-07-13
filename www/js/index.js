@@ -171,18 +171,20 @@ function readAsText(file) {
 }
 
 function dowloadImagesFinally(data) {
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
-        var url = 'http://scavenger.h-vision.com/app/backend/uploads/117/1.jpg';
-        var imagePath = fs.root.fullPath + "/scavenger/images/" + "1.png";
-        var fileTransfer = new FileTransfer();
-        fileTransfer.download(url, imagePath, function (entry) {
-            $.mobile.loading('hide');
-            alert('down');
-        }, function (error) {
-            alert('allert');
-            console.log(error);
+
+    $each.(data, function(i, image){
+        $.mobile.loading('show');
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+            var url = 'http://scavenger.h-vision.com/app/backend/uploads/117/' + image;
+            var imagePath = fs.root.fullPath + "/scavenger/images/" + "1.png";
+            var fileTransfer = new FileTransfer();
+            fileTransfer.download(url, imagePath, function (entry) {
+                $.mobile.loading('hide');
+            }, function (error) {
+            });
         });
-    });
+    })
+    $.mobile.loading('hide');
 }
 
 function createImageDir(fs) {
